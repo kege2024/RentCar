@@ -38,11 +38,11 @@ public class Board {
 	public void setBoardContent(String boardContent) {
 		this.boardContent = boardContent;
 	}
-	public int getBoardAvailabe() {
+	public int getBoardAvailable() {
 		return boardAvailabe;
 	}
-	public void setBoardAvailabe(int boardAvailabe) {
-		this.boardAvailabe = boardAvailabe;
+	public void setBoardAvailable(int boardAvailable) {
+		this.boardAvailabe = boardAvailable;
 	}
 
 	

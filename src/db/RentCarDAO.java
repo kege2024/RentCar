@@ -134,7 +134,7 @@ public class RentCarDAO {
 			String sql = "select * from rentcar";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			// pstmt = con.prepareStatement(sql);
+			//pstmt = con.prepareStatement(sql);
 			while(rs.next()) {
 				bean = new CarListBean();
 				bean.setNo(rs.getInt(1));

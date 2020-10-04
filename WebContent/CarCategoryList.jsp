@@ -63,7 +63,7 @@ else if(category==3)temp="대형";
 </form>
 <br>
 <br>
-<button style="background-color: #7F0B0B; color: white; font-size:25px; padding:20px 10px" onclick="location.href='RentCarMain.jsp?center=CarAllList.jsp'">전체차량보기</button>
-</center>
+<!-- <button style="background-color: #7F0B0B; color: white; font-size:25px; padding:20px 10px" onclick="location.href='RentCarMain.jsp?center=CarAllList.jsp'">전체차량보기</button>
+ --></center>
 </body>
 </html>

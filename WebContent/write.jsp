@@ -80,7 +80,7 @@ if(session.getAttribute("userID") != null) {
 	<td><input type="text" class="form-control" placeholder="글제목" name="boardTitle" maxlength="50"></td>
 	</tr>
 	<tr>
-	<td><textarea class="form-control" placeholder="글제목" name="boardContent" maxlength="2048" style="height:350px;"></textarea></td>
+	<td><textarea class="form-control" placeholder="글내용" name="boardContent" maxlength="2048" style="height:350px;"></textarea></td>
 	</tr>
 	</tbody>
 	</table>

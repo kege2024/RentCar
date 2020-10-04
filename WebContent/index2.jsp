@@ -30,8 +30,7 @@
 		<link rel="stylesheet" href="home3/css/magnific-popup.css">
 		<link rel="stylesheet" href="home3/css/bootstrap.css">
 		<link rel="stylesheet" href="home3/css/main.css">
-		<link rel="stylesheet" href="home3/css/main2.css">
-		
+		<link rel="stylesheet" href="home3/css/main2.css">	
 	</head>
 	<body>
 	<div class="imageFade">
@@ -46,9 +45,9 @@
 						</div>
 						<div class="main-menubar d-flex align-items-center">
 							<nav class="hide">
-								<a href="/index2">Home</a>
-								<a href="/admin/home">Admin</a>
-								<a href="elements.html">Elements</a>
+								<a href="#">Home</a>
+								<a href="#">Admin</a>
+								<a href="#">Elements</a>
 							</nav>
 							<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
 						</div>

@@ -20,7 +20,6 @@
 		
 		RentCarDAO rdao = new RentCarDAO();
 		Vector<CarListBean> v = rdao.getAllCar();
-
 		//tr을 3개씩 보여주고 다시 tr보여주는 로직
 		int j = 0;
 		for(int i=0; i<v.size(); i++) {

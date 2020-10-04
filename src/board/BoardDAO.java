@@ -7,34 +7,25 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class BoardDAO {
-	String id ="XE";
-	String pass="apmsetup";
-	String url="jdbc:oracle:thin:@localhost:1521:XE";
+	private Connection conn;  //db 연결 객체
+	private ResultSet rs; // 정보를 담을 변수
 	
-	Connection con;
-	PreparedStatement pstmt;
-	ResultSet rs;
-	
-	public void getCon() {
-	try {
-		Class.forName("oracle.jdbc.driver.OracleDriver"); //db 사용 선언
-		con = DriverManager.getConnection(url, id, pass); //db 접속
-		
-	}catch (Exception e) {
-		
-		
+	public BoardDAO() {
+		try {
+			String dbURL = "jdbc:mysql://localhost:3306/test?serverTimezone=UTC";
+			String dbID = "root";
+			String dbPassword = "apmsetup";
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	
-}
-
-	
 
 	public String getDate() {
+		String SQL = "SELECT NOW()";
 		try {
-			getCon();
-			String SQL = "SELECT GETDATE()";
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getString(1);
@@ -46,10 +37,9 @@ public class BoardDAO {
 	}
 	
 	public int getNext() {
+		String SQL = "SELECT boardID FROM board ORDER BY boardID DESC";
 		try {
-			getCon();
-			String SQL = "SELECT board2.*FROM (SELECT board2.* FROM board2 ORDER BY boardID DESC) board2 WHERE ROWNUM <= 10";
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
@@ -62,10 +52,9 @@ public class BoardDAO {
 	}
 	
 	public int write(String boardTitle, String userID, String boardContent) {
+		String SQL = "INSERT INTO board VALUES (?, ?, ?, ?, ?, ?)";
 		try {
-			getCon();
-			String SQL = "INSERT INTO board2 VALUES (?, ?, ?, ?, ?, ?)";
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext());
 			pstmt.setString(2, boardTitle);
 			pstmt.setString(3, userID);
@@ -80,11 +69,10 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<Board> getList(int pageNumber) {
+		String SQL = "SELECT * FROM board WHERE boardID < ? AND boardAvailabe = 1 ORDER BY boardID DESC LIMIT 10";
 		ArrayList<Board> list = new ArrayList<Board>();
 		try {
-			getCon();
-			String SQL = "SELECT * FROM (SELECT board2.*, ROW_NUMBER() OVER(ORDER BY boardID DESC) AS RNO FROM board2) WHERE RNO <= 10";
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -94,7 +82,7 @@ public class BoardDAO {
 				board.setUserID(rs.getString(3));
 				board.setBoardDate(rs.getString(4));
 				board.setBoardContent(rs.getString(5));
-				board.setBoardAvailabe(rs.getInt(6));
+				board.setBoardAvailable(rs.getInt(6));
 				list.add(board);
 			}	
 		} catch (Exception e) {
@@ -103,10 +91,9 @@ public class BoardDAO {
 		return list; 
 	}
 	public boolean nextPage (int pageNumber) { //페이징 처리 함수
-		String SQL = "SELECT * FROM board2 WHERE boardID < ? AND boardAvailabe = 1";
+		String SQL = "SELECT * FROM board WHERE boardID < ? AND boardAvailabe = 1";
 		try {
-			getCon();
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, getNext() - (pageNumber -1) * 10);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -119,10 +106,9 @@ public class BoardDAO {
 	}
 	
 	public Board getBbs(int boardID) {
-		String SQL = "SELECT * FROM board2 WHERE boardID = ?";
+		String SQL = "SELECT * FROM board WHERE boardID = ?";
 		try {
-			getCon();
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1,boardID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -132,7 +118,7 @@ public class BoardDAO {
 				board.setUserID(rs.getString(3));
 				board.setBoardDate(rs.getString(4));
 				board.setBoardContent(rs.getString(5));
-				board.setBoardAvailabe(rs.getInt(6));
+				board.setBoardAvailable(rs.getInt(6));
 				return board;
 			}	
 		} catch (Exception e) {
@@ -142,10 +128,9 @@ public class BoardDAO {
 	}
 	
 	public int update(int boardID, String boardTitle, String boardContent) {
-		String SQL = "UPDATE BOARD2 SET boardTitle = ?, boardContent = ? WHERE boardID = ?";
+		String SQL = "UPDATE BOARD SET boardTitle = ?, boardContent = ? WHERE boardID = ?";
 		try {
-			getCon();
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, boardTitle);
 			pstmt.setString(2, boardContent);
 			pstmt.setInt(3, boardID);			
@@ -157,10 +142,9 @@ public class BoardDAO {
 	}
 	
 	public int delete(int boardID) {
-		String SQL = "UPDATE BOARD2 SET boardAvailabe = 0 WHERE boardID = ?";
+		String SQL = "UPDATE BOARD SET boardAvailabe = 0 WHERE boardID = ?";
 		try {
-			getCon();
-			PreparedStatement pstmt = con.prepareStatement(SQL);
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, boardID);			
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
