@@ -1,0 +1,47 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,500,900);
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+
+ body,html{
+	width:1200px;
+	font-size:20px;
+} 
+}
+header{
+	float:left;
+	height:100px;
+	width:1200px;
+}
+
+.top{
+	float:left;
+	height:100px;
+	width:1200px;
+}
+
+.logo{
+	float:left;
+	height:100px;
+	width:200px;
+	background-color:#EEEEEE;
+}
+
+nav{
+	float:left;
+}
+
+.menu{
+	float:left;
+	width:150px;
+	background-color:#EEEEEE;
+}
+.menu>li{
+	float:left;
+	width:200px;
+}
+
+.imgslide{
+	float:right;
+	height:350px;
+	width:1200px;
+	background-color:#00FFFF;
+}
